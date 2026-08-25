@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 export function AiDisclaimer({ children }: { children?: ReactNode }) {
   return (
     <p className="mt-3 flex gap-2 rounded-md border border-border bg-secondary px-3 py-2 text-xs leading-relaxed text-muted-foreground">
-      <TriangleAlert className="mt-0.5 size-3.5 shrink-0 text-clay" />
+      <TriangleAlert className="mt-0.5 size-3.5 shrink-0 text-primary" />
       <span>
         {children ??
           "AI-generated content should be reviewed before use. BusinessConnect AI may make mistakes. Verify important information before making business, financial, legal or other consequential decisions."}
@@ -104,7 +104,7 @@ export function AiPanel({
         )}
 
         {!loading && error && (
-          <div className="rounded-md border border-clay/40 bg-clay/8 px-3 py-3 text-sm text-clay" role="alert">
+          <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-3 text-sm text-destructive" role="alert">
             <p className="label-mono">Something went wrong</p>
             <p className="mt-1.5 leading-relaxed">{error}</p>
           </div>
