@@ -34,17 +34,22 @@ type Shape = { enquiries: Enquiry[]; tasks: Task[]; activity: Activity[] };
 const KEY = "bcsa.store.v1";
 const EMPTY: Shape = { enquiries: [], tasks: [], activity: [] };
 
+let cache: Shape | null = null;
+
 function read(): Shape {
   if (typeof window === "undefined") return EMPTY;
+  if (cache) return cache;
   try {
     const raw = window.localStorage.getItem(KEY);
-    return raw ? { ...EMPTY, ...(JSON.parse(raw) as Shape) } : EMPTY;
+    cache = raw ? { ...EMPTY, ...(JSON.parse(raw) as Shape) } : EMPTY;
   } catch {
-    return EMPTY;
+    cache = EMPTY;
   }
+  return cache;
 }
 
 function write(next: Shape) {
+  cache = next;
   try {
     window.localStorage.setItem(KEY, JSON.stringify(next));
     window.dispatchEvent(new Event("bcsa:store"));

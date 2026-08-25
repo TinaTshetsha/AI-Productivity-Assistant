@@ -151,3 +151,47 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
+
+@utility prose-bc {
+  & h1, & h2, & h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  & h1 { font-size: 1.15rem; }
+  & p { margin-bottom: 0.75rem; }
+  & ul, & ol { margin: 0 0 0.75rem 1.1rem; }
+  & ul { list-style: disc; }
+  & ol { list-style: decimal; }
+  & li { margin-bottom: 0.25rem; }
+  & strong { font-weight: 600; }
+  & a { color: var(--color-primary); text-decoration: underline; }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    background-color: var(--color-secondary);
+    padding: 0.1rem 0.3rem;
+    border-radius: var(--radius-sm);
+  }
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+  }
+  & th, & td {
+    border: 1px solid var(--color-border);
+    padding: 0.4rem 0.55rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  & th { background-color: var(--color-secondary); font-weight: 600; }
+  & blockquote {
+    border-left: 2px solid var(--color-primary);
+    padding-left: 0.75rem;
+    color: var(--color-muted-foreground);
+    margin-bottom: 0.75rem;
+  }
+}
