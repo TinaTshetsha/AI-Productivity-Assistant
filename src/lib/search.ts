@@ -236,13 +236,15 @@ export function resolveIntentLocation(intent: SearchIntent, current: ResolvedLoc
   const province = PROVINCES.find((p) => q.includes(p.name.toLowerCase()));
   if (province) {
     const first = province.cities[0];
+    if (!first) return current;
     return { label: province.name, lat: first.lat, lng: first.lng, province: province.name, source: "typed" };
   }
   return current;
 }
 
 export function isOpenNow(business: Business, now = new Date()) {
-  const hours = business.openingHours[DAYS[now.getDay()]];
+  const day = DAYS[now.getDay()] ?? "Monday";
+  const hours = business.openingHours[day];
   if (!hours || hours.toLowerCase() === "closed") return false;
   const match = hours.match(/(\d{2}):(\d{2})\s*[–-]\s*(\d{2}):(\d{2})/);
   if (!match) return false;
@@ -392,7 +394,7 @@ export const DEFAULT_LOCATION: ResolvedLocation = {
 };
 
 export function nearestArea(lat: number, lng: number) {
-  let best = ALL_AREAS[0];
+  let best = ALL_AREAS[0]!;
   let bestD = Number.POSITIVE_INFINITY;
   for (const a of ALL_AREAS) {
     const d = haversineKm(lat, lng, a.lat, a.lng);
