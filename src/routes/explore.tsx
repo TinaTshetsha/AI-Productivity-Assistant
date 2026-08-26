@@ -159,7 +159,7 @@ function Explore() {
             <span className="label-mono text-muted-foreground">Minimum rating</span>
             <select
               value={filters.minRating ?? 0}
-              onChange={(e) => setFilters((f) => ({ ...f, minRating: Number(e.target.value) || undefined }))}
+              onChange={(e) => setFilters((f) => ({ ...f, minRating: Number(e.target.value) || 0 }))}
               className="mt-1.5 w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
             >
               {[0, 3, 3.5, 4, 4.5].map((r) => (
@@ -174,7 +174,7 @@ function Explore() {
             <select
               value={filters.priceBand ?? ""}
               onChange={(e) =>
-                setFilters((f) => ({ ...f, priceBand: (e.target.value || null) as SearchFilters["priceBand"] }))
+                setFilters((f) => ({ ...f, priceBand: (e.target.value || null) as Exclude<SearchFilters["priceBand"], undefined> }))
               }
               className="mt-1.5 w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
             >
@@ -188,7 +188,7 @@ function Explore() {
             <span className="label-mono text-muted-foreground">Sort</span>
             <select
               value={filters.sort ?? "recommended"}
-              onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value as SearchFilters["sort"] }))}
+              onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value as Exclude<SearchFilters["sort"], undefined> }))}
               className="mt-1.5 w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
             >
               <option value="recommended">Recommended</option>

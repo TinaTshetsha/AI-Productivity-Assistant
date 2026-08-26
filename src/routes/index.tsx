@@ -73,12 +73,6 @@ function Landing() {
                 Explore
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
-              <Link to="/workplace">AI Workplace</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link to="/register">List your business</Link>
-            </Button>
           </nav>
         </div>
       </header>
@@ -195,15 +189,13 @@ function Landing() {
         <section>
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="font-display text-2xl font-semibold">Explore South Africa</h2>
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/south-africa">All provinces</Link>
-            </Button>
           </div>
           <div className="mt-4 grid gap-2 sm:grid-cols-3">
             {PROVINCES.map((province) => (
               <Link
                 key={province.id}
-                to="/south-africa"
+                to="/explore"
+                search={{ q: province.name, scope: "province" }}
                 className="board flex items-center justify-between px-4 py-3 transition-colors hover:border-primary"
               >
                 <span className="font-medium">{province.name}</span>
@@ -220,11 +212,11 @@ function Landing() {
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {AI_TOOLS.map((tool) => (
-              <Link key={tool.to} to={tool.to} className="board p-4 transition-colors hover:border-primary">
+              <div key={tool.to} className="board p-4">
                 <tool.icon className="size-5 text-primary" />
                 <p className="mt-3 font-medium">{tool.label}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{tool.copy}</p>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
@@ -255,8 +247,8 @@ function Landing() {
             </p>
           </div>
           <Button asChild size="lg" className="gap-1.5">
-            <Link to="/register">
-              <Briefcase className="size-4" /> List your business
+            <Link to="/explore" search={{ q: "", scope: "national" }}>
+              <Briefcase className="size-4" /> Browse listings
             </Link>
           </Button>
         </section>
@@ -267,9 +259,9 @@ function Landing() {
           <p className="text-xs text-muted-foreground">
             Demonstration build — all business listings are fictional sample data.
           </p>
-          <Link to="/responsible-ai" className="label-mono text-primary">
-            Responsible AI
-          </Link>
+          <span className="label-mono text-muted-foreground">
+            AI answers are generated from platform listings only and can be wrong — always confirm with the business.
+          </span>
         </div>
       </footer>
     </div>
