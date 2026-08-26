@@ -25,26 +25,6 @@ const NAV: Array<{ group: string; items: Array<{ to: string; label: string; icon
     items: [
       { to: "/", label: "Home", icon: Home },
       { to: "/explore", label: "Explore businesses", icon: Compass },
-      { to: "/register", label: "List your business", icon: Briefcase },
-    ],
-  },
-  {
-    group: "AI Workplace",
-    items: [
-      { to: "/workplace", label: "AI Workplace", icon: BarChart3 },
-      { to: "/workplace/chat", label: "AI Assistant", icon: Bot },
-      { to: "/workplace/email", label: "Smart Email", icon: Mail },
-      { to: "/workplace/notes", label: "Meeting Notes", icon: NotebookPen },
-      { to: "/workplace/planner", label: "Task Planner", icon: CalendarClock },
-      { to: "/workplace/research", label: "AI Research", icon: Search },
-    ],
-  },
-  {
-    group: "My Business",
-    items: [
-      { to: "/dashboard", label: "Enquiries & analytics", icon: Inbox },
-      { to: "/admin", label: "Admin platform", icon: Shield },
-      { to: "/responsible-ai", label: "Responsible AI", icon: ShieldCheck },
     ],
   },
 ];

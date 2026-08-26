@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { BUSINESSES, CATEGORIES } from "@/data/sa";
 import { Button } from "@/components/ui/button";
+import { EnquiryForm } from "@/components/EnquiryForm";
 import { Phone, Mail, MapPin, Globe, MessageCircle, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/business/$slug")({
@@ -100,6 +101,8 @@ function BusinessProfile() {
           ))}
         </dl>
       </section>
+
+      <EnquiryForm business={b} />
 
       <p className="mt-6 text-xs text-muted-foreground">
         Demo listing — details are illustrative sample data.
