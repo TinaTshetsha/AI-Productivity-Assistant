@@ -159,7 +159,7 @@ function Explore() {
             <span className="label-mono text-muted-foreground">Minimum rating</span>
             <select
               value={filters.minRating ?? 0}
-              onChange={(e) => setFilters((f) => ({ ...f, minRating: Number(e.target.value) || undefined }))}
+              onChange={(e) => setFilters((f) => ({ ...f, minRating: Number(e.target.value) || 0 }))}
               className="mt-1.5 w-full rounded-md border border-border bg-card px-3 py-2 text-sm"
             >
               {[0, 3, 3.5, 4, 4.5].map((r) => (
