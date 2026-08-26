@@ -16,6 +16,8 @@ import {
   type SearchScope,
 } from "@/lib/search";
 import { useLocationContext } from "@/lib/use-location";
+import { chatWithAssistant } from "@/lib/ai.functions";
+import { AiDisclaimer, Markdown } from "@/components/AiPanel";
 
 const SearchSchema = z.object({
   q: z.string().optional().default(""),
@@ -58,6 +60,9 @@ function Explore() {
   const [radiusKm, setRadiusKm] = useState(25);
   const [filters, setFilters] = useState<SearchFilters>({ sort: "recommended" });
   const [showFilters, setShowFilters] = useState(false);
+  const [aiText, setAiText] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   const intent = useMemo(() => parseIntent(q, scope), [q, scope]);
   const searchLocation = useMemo(() => resolveIntentLocation(intent, location), [intent, location]);
@@ -75,6 +80,35 @@ function Explore() {
 
   const results = useMemo(() => searchBusinesses(args), [args]);
   const fallbacks = useMemo(() => (results.length ? [] : buildFallbacks(args)), [results.length, args]);
+
+  const askAi = async () => {
+    if (!q.trim()) return;
+    setAiLoading(true);
+    setAiError(null);
+    try {
+      const businessContext = results
+        .slice(0, 8)
+        .map(
+          (r) =>
+            `${r.business.name} — ${r.business.services.join(", ")}, ${r.business.suburb}, ${r.business.city}, ${r.business.province}` +
+            `${r.distanceKm !== null ? `, ${r.distanceKm.toFixed(1)} km away` : ""}` +
+            `${r.business.rating ? `, rated ${r.business.rating}` : ""}`,
+        )
+        .join("\n");
+      const res = await chatWithAssistant({
+        data: {
+          messages: [{ role: "user" as const, content: q }],
+          businessContext,
+          locationLabel: searchLocation?.label ?? "South Africa",
+        },
+      });
+      setAiText(res.text);
+    } catch (error) {
+      setAiError((error as Error)?.message ?? "The AI request failed.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   const update = (patch: { q?: string; scope?: SearchScope; category?: string | undefined }) =>
     navigate({ search: (prev) => ({ ...prev, ...patch }) });
@@ -216,6 +250,34 @@ function Explore() {
               Reset filters
             </Button>
           </div>
+        </div>
+      )}
+
+      {q.trim() !== "" && (
+        <div className="board mt-5 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="label-mono text-xs text-primary">AI answer</h2>
+            <Button size="sm" variant="outline" className="gap-1.5" onClick={() => void askAi()} disabled={aiLoading}>
+              <Sparkles className="size-3.5" /> {aiLoading ? "Thinking…" : aiText ? "Ask again" : "Explain these results"}
+            </Button>
+          </div>
+          {aiError && <p className="mt-3 text-sm text-destructive">{aiError}</p>}
+          {aiText ? (
+            <div className="mt-3">
+              <Markdown>{aiText}</Markdown>
+            </div>
+          ) : (
+            !aiError && (
+              <p className="mt-3 text-sm text-muted-foreground">
+                Ask BusinessConnect AI to summarise the {results.length} matching {results.length === 1 ? "listing" : "listings"} for
+                "{q}".
+              </p>
+            )
+          )}
+          <AiDisclaimer>
+            AI answers use only the businesses listed on this platform — never outside sources — and may still be wrong. Confirm
+            details directly with the business before deciding.
+          </AiDisclaimer>
         </div>
       )}
 
