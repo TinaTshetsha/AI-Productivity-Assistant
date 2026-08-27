@@ -155,22 +155,45 @@ function Explore() {
           ))}
         </div>
         {scope === "near" && (
-          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
             Radius
-            <input
-              type="range"
-              min={5}
-              max={150}
-              step={5}
-              value={radiusKm}
-              onChange={(e) => setRadiusKm(Number(e.target.value))}
-              className="accent-primary"
-            />
-            <span className="label-mono">{radiusKm} km</span>
-          </label>
+            {[5, 10, 25, 50].map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRadiusKm(r)}
+                className={`rounded border px-2 py-1 font-medium ${
+                  radiusKm === r ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card"
+                }`}
+              >
+                {r} km
+              </button>
+            ))}
+          </div>
         )}
         <p className="label-mono text-muted-foreground">Searching from {searchLocation?.label ?? "South Africa"}</p>
       </div>
+
+      {q.trim() !== "" && (
+        <div className="board mt-3 p-4">
+          <h2 className="label-mono text-xs text-primary">AI understood your request</h2>
+          <div className="mt-2 flex flex-wrap gap-2 text-xs">
+            {(
+              [
+                ["Category", intent.categoryId ? (CATEGORIES.find((c) => c.id === intent.categoryId)?.name ?? null) : null],
+                ["Service", intent.service],
+                ["Location", intent.locationText ?? searchLocation?.label ?? null],
+                ["Price", intent.priceBand],
+                ["Availability", intent.openNow ? "Open now" : null],
+              ] as Array<[string, string | null]>
+            ).map(([label, value]) => (
+              <span key={label} className="rounded-md border border-border bg-secondary px-2.5 py-1">
+                <span className="label-mono text-muted-foreground">{label}:</span> {value ?? "not specified"}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {showFilters && (
         <div className="board mt-3 grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4">
