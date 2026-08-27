@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as BusinessSlugRouteImport } from './routes/business.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExploreRoute = ExploreRouteImport.update({
@@ -31,30 +37,34 @@ const BusinessSlugRoute = BusinessSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/explore': typeof ExploreRoute
   '/business/$slug': typeof BusinessSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/explore': typeof ExploreRoute
   '/business/$slug': typeof BusinessSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/explore': typeof ExploreRoute
   '/business/$slug': typeof BusinessSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explore' | '/business/$slug'
+  fullPaths: '/' | '/assistant' | '/explore' | '/business/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explore' | '/business/$slug'
-  id: '__root__' | '/' | '/explore' | '/business/$slug'
+  to: '/' | '/assistant' | '/explore' | '/business/$slug'
+  id: '__root__' | '/' | '/assistant' | '/explore' | '/business/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   ExploreRoute: typeof ExploreRoute
   BusinessSlugRoute: typeof BusinessSlugRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explore': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   ExploreRoute: ExploreRoute,
   BusinessSlugRoute: BusinessSlugRoute,
 }
