@@ -94,26 +94,35 @@ function BusinessProfile() {
 
       <section className="board mt-8 p-5">
         <h2 className="label-mono text-xs text-primary">Services</h2>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {b.services.map((s) => (
-            <li key={s} className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs">
-              {s}
-            </li>
-          ))}
-        </ul>
+        {b.services.length ? (
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {b.services.map((s) => (
+              <li key={s} className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs">
+                {s}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">Information not provided by this business.</p>
+        )}
       </section>
 
       <section className="board mt-4 p-5">
         <h2 className="label-mono text-xs text-primary">Opening hours</h2>
-        <dl className="mt-3 space-y-1 text-sm">
-          {Object.entries(b.openingHours).map(([day, hours]) => (
-            <div key={day} className="flex justify-between gap-4">
-              <dt className="capitalize text-muted-foreground">{day}</dt>
-              <dd>{hours}</dd>
-            </div>
-          ))}
-        </dl>
+        {Object.keys(b.openingHours).length ? (
+          <dl className="mt-3 space-y-1 text-sm">
+            {Object.entries(b.openingHours).map(([day, hours]) => (
+              <div key={day} className="flex justify-between gap-4">
+                <dt className="capitalize text-muted-foreground">{day}</dt>
+                <dd>{hours || "Information not provided by this business."}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">Information not provided by this business.</p>
+        )}
       </section>
+
 
       <EnquiryForm business={b} />
 
