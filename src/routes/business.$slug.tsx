@@ -44,13 +44,26 @@ function BusinessProfile() {
       <header className="mt-6">
         <p className="label-mono text-xs text-primary">{category?.name ?? b.businessType}</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">{b.name}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+          <span className="rounded-md border border-border bg-secondary px-2.5 py-1 capitalize">{b.verification}</span>
+          <span className="rounded-md border border-border bg-secondary px-2.5 py-1">
+            {b.rating ? `${b.rating} ★ (${b.reviewCount} reviews)` : "Rating: information not provided by this business."}
+          </span>
+        </div>
         <p className="mt-2 text-sm text-muted-foreground">
           <MapPin className="mr-1 inline size-3.5" />
           {b.address}, {b.suburb}, {b.city}, {b.province} {b.postalCode}
         </p>
       </header>
 
-      <p className="mt-6 leading-relaxed text-foreground/85">{b.description}</p>
+      <p className="mt-6 leading-relaxed text-foreground/85">{b.description || "Information not provided by this business."}</p>
+
+      <div className="mt-6">
+        <Button asChild size="lg" className="gap-1.5">
+          <a href="#enquiry">Request Quote</a>
+        </Button>
+      </div>
+
 
       <div className="mt-6 flex flex-wrap gap-2">
         <Button asChild size="sm" className="gap-1.5">
@@ -81,26 +94,35 @@ function BusinessProfile() {
 
       <section className="board mt-8 p-5">
         <h2 className="label-mono text-xs text-primary">Services</h2>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {b.services.map((s) => (
-            <li key={s} className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs">
-              {s}
-            </li>
-          ))}
-        </ul>
+        {b.services.length ? (
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {b.services.map((s) => (
+              <li key={s} className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs">
+                {s}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">Information not provided by this business.</p>
+        )}
       </section>
 
       <section className="board mt-4 p-5">
         <h2 className="label-mono text-xs text-primary">Opening hours</h2>
-        <dl className="mt-3 space-y-1 text-sm">
-          {Object.entries(b.openingHours).map(([day, hours]) => (
-            <div key={day} className="flex justify-between gap-4">
-              <dt className="capitalize text-muted-foreground">{day}</dt>
-              <dd>{hours}</dd>
-            </div>
-          ))}
-        </dl>
+        {Object.keys(b.openingHours).length ? (
+          <dl className="mt-3 space-y-1 text-sm">
+            {Object.entries(b.openingHours).map(([day, hours]) => (
+              <div key={day} className="flex justify-between gap-4">
+                <dt className="capitalize text-muted-foreground">{day}</dt>
+                <dd>{hours || "Information not provided by this business."}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">Information not provided by this business.</p>
+        )}
       </section>
+
 
       <EnquiryForm business={b} />
 

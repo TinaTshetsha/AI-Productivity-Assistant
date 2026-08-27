@@ -9,7 +9,8 @@ import type { Business } from "@/data/sa";
 
 export function EnquiryForm({ business }: { business: Business }) {
   const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [service, setService] = useState(business.services[0] ?? "");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
@@ -19,8 +20,7 @@ export function EnquiryForm({ business }: { business: Business }) {
       <section className="board mt-4 p-5">
         <h2 className="label-mono text-xs text-primary">Enquiry sent</h2>
         <p className="mt-3 text-sm text-foreground/85">
-          Thanks {name || "there"} — your enquiry has been sent to {business.name}. They typically reply on the contact
-          details you provided.
+          Your enquiry has been sent to the business.
         </p>
         <Button size="sm" variant="outline" className="mt-4" onClick={() => setSent(false)}>
           Send another enquiry
@@ -30,14 +30,18 @@ export function EnquiryForm({ business }: { business: Business }) {
   }
 
   return (
-    <section className="board mt-4 p-5">
-      <h2 className="label-mono text-xs text-primary">Send an enquiry</h2>
+    <section id="enquiry" className="board mt-4 p-5 scroll-mt-6">
+      <h2 className="label-mono text-xs text-primary">Request a quote</h2>
       <form
         className="mt-3 grid gap-3 sm:grid-cols-2"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!name.trim() || !contact.trim() || !message.trim()) {
-            toast.error("Please add your name, contact details and a message.");
+          if (!name.trim() || !email.trim() || !phone.trim() || !service.trim() || !message.trim()) {
+            toast.error("Please complete all fields: name, email, phone, service and message.");
+            return;
+          }
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
+            toast.error("Please enter a valid email address.");
             return;
           }
           addEnquiry({
@@ -45,14 +49,14 @@ export function EnquiryForm({ business }: { business: Business }) {
             businessName: business.name,
             type: "message",
             name: name.trim(),
-            contact: contact.trim(),
+            contact: `${email.trim()} · ${phone.trim()}`,
             service,
             message: message.trim(),
             preferredDate: "",
             preferredTime: "",
             budget: "",
           });
-          toast.success(`Enquiry sent to ${business.name}`);
+          toast.success("Your enquiry has been sent to the business.");
           setSent(true);
           setMessage("");
         }}
@@ -62,13 +66,18 @@ export function EnquiryForm({ business }: { business: Business }) {
           <Input value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5" placeholder="Thandi Mokoena" />
         </label>
         <label className="text-sm">
-          <span className="label-mono text-muted-foreground">Phone or email</span>
+          <span className="label-mono text-muted-foreground">Email</span>
           <Input
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="mt-1.5"
-            placeholder="082 000 0000"
+            placeholder="you@example.com"
           />
+        </label>
+        <label className="text-sm sm:col-span-2">
+          <span className="label-mono text-muted-foreground">Phone</span>
+          <Input value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-1.5" placeholder="082 000 0000" />
         </label>
         <label className="text-sm sm:col-span-2">
           <span className="label-mono text-muted-foreground">Service needed</span>
@@ -95,7 +104,7 @@ export function EnquiryForm({ business }: { business: Business }) {
         </label>
         <div className="sm:col-span-2">
           <Button type="submit" className="gap-1.5">
-            <Send className="size-4" /> Send enquiry
+            <Send className="size-4" /> Request Quote
           </Button>
           <p className="mt-2 text-xs text-muted-foreground">
             Demonstration build — enquiries are stored on this device only and no real business is contacted.
