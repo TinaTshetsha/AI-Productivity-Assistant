@@ -52,7 +52,9 @@ export type Business = {
   rating: number | null;
   reviewCount: number;
   priceBand: "affordable" | "moderate" | "premium" | null;
-  demo: true;
+  demo: boolean;
+  live?: boolean;
+  status?: string;
 };
 
 export const PROVINCES: Province[] = [
