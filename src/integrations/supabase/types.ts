@@ -14,16 +14,276 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      businesses: {
+        Row: {
+          address: string | null
+          availability: string | null
+          business_type: string | null
+          category_id: string | null
+          city: string | null
+          created_at: string
+          description: string | null
+          email: string | null
+          id: string
+          images: string[]
+          keywords: string[]
+          lat: number | null
+          lng: number | null
+          logo_url: string | null
+          municipality: string | null
+          name: string
+          opening_hours: Json
+          owner_id: string
+          phone: string | null
+          postal_code: string | null
+          price_band: string | null
+          products: string[]
+          profile_views: number
+          province: string | null
+          rejection_reason: string | null
+          search_appearances: number
+          services: string[]
+          short_description: string | null
+          slug: string
+          social: string | null
+          status: Database["public"]["Enums"]["business_status"]
+          suburb: string | null
+          updated_at: string
+          website: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          address?: string | null
+          availability?: string | null
+          business_type?: string | null
+          category_id?: string | null
+          city?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          images?: string[]
+          keywords?: string[]
+          lat?: number | null
+          lng?: number | null
+          logo_url?: string | null
+          municipality?: string | null
+          name: string
+          opening_hours?: Json
+          owner_id: string
+          phone?: string | null
+          postal_code?: string | null
+          price_band?: string | null
+          products?: string[]
+          profile_views?: number
+          province?: string | null
+          rejection_reason?: string | null
+          search_appearances?: number
+          services?: string[]
+          short_description?: string | null
+          slug: string
+          social?: string | null
+          status?: Database["public"]["Enums"]["business_status"]
+          suburb?: string | null
+          updated_at?: string
+          website?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string | null
+          availability?: string | null
+          business_type?: string | null
+          category_id?: string | null
+          city?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          images?: string[]
+          keywords?: string[]
+          lat?: number | null
+          lng?: number | null
+          logo_url?: string | null
+          municipality?: string | null
+          name?: string
+          opening_hours?: Json
+          owner_id?: string
+          phone?: string | null
+          postal_code?: string | null
+          price_band?: string | null
+          products?: string[]
+          profile_views?: number
+          province?: string | null
+          rejection_reason?: string | null
+          search_appearances?: number
+          services?: string[]
+          short_description?: string | null
+          slug?: string
+          social?: string | null
+          status?: Database["public"]["Enums"]["business_status"]
+          suburb?: string | null
+          updated_at?: string
+          website?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      enquiries: {
+        Row: {
+          budget: string | null
+          business_id: string | null
+          business_name: string
+          business_slug: string
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          message: string
+          owner_id: string | null
+          preferred_date: string | null
+          service: string | null
+          status: Database["public"]["Enums"]["enquiry_status"]
+        }
+        Insert: {
+          budget?: string | null
+          business_id?: string | null
+          business_name: string
+          business_slug: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          message: string
+          owner_id?: string | null
+          preferred_date?: string | null
+          service?: string | null
+          status?: Database["public"]["Enums"]["enquiry_status"]
+        }
+        Update: {
+          budget?: string | null
+          business_id?: string | null
+          business_name?: string
+          business_slug?: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          message?: string
+          owner_id?: string | null
+          preferred_date?: string | null
+          service?: string | null
+          status?: Database["public"]["Enums"]["enquiry_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enquiries_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          estimated_minutes: number | null
+          id: string
+          priority: string
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          estimated_minutes?: number | null
+          id?: string
+          priority?: string
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          estimated_minutes?: number | null
+          id?: string
+          priority?: string
+          status?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "consumer" | "business_owner" | "admin"
+      business_status:
+        | "draft"
+        | "pending"
+        | "verified"
+        | "rejected"
+        | "suspended"
+      enquiry_status: "new" | "contacted" | "in_progress" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +410,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["consumer", "business_owner", "admin"],
+      business_status: [
+        "draft",
+        "pending",
+        "verified",
+        "rejected",
+        "suspended",
+      ],
+      enquiry_status: ["new", "contacted", "in_progress", "completed"],
+    },
   },
 } as const
